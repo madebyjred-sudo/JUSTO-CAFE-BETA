@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    
+    <!-- SEO & Metadata -->
+    <title>Justo Café | Origen Consciente</title>
+    <meta name="description" content="Café de especialidad colombiano, tostado artesanalmente en Bogotá. Suscripciones flexibles, granos de origen único y entrega el mismo día.">
+    <meta name="keywords" content="cafe especialidad, cafe colombia, suscripcion cafe, tostion artesanal, bogota cafe">
+    <meta name="author" content="Justo Café">
+    <meta name="theme-color" content="#2C2420">
+
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://justocafe.com/">
+    <meta property="og:title" content="Justo Café | Origen Consciente">
+    <meta property="og:description" content="Cultivando relaciones justas y sabores excepcionales. Café de especialidad directo de la finca a tu taza.">
+    <meta property="og:image" content="https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://justocafe.com/">
+    <meta property="twitter:title" content="Justo Café | Origen Consciente">
+    <meta property="twitter:description" content="Café de especialidad colombiano, tostado con intención.">
+    <meta property="twitter:image" content="https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Antonio:wght@100;300;400;600;700&family=Figtree:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              justo: {
+                beige: '#E8DCC4',
+                brown: '#8B7355',
+                cream: '#F5F1E8',
+                dark: '#2C2420',
+              }
+            },
+            fontFamily: {
+              heading: ['"Pinyon Script"', 'cursive'],
+              body: ['"Antonio"', 'sans-serif'], 
+              sans: ['"Figtree"', 'sans-serif'], 
+            },
+            borderRadius: {
+              'golden-sm': '0.382rem', 
+              'golden-md': '0.618rem', 
+              'golden-lg': '1rem',     
+              'golden-xl': '1.618rem', 
+              'golden-2xl': '2.618rem' 
+            },
+            animation: {
+              blob: "blob 10s infinite",
+              drift: "drift 20s linear infinite",
+              "spin-slow": "spin 12s linear infinite",
+              marquee: "marquee 40s linear infinite", /* Slowed down slightly for readability */
+              "fade-in": "fadeIn 1s ease-out forwards",
+              "fade-in-up": "fadeInUp 1s ease-out forwards",
+              "fade-out": "fadeOut 0.5s ease-in forwards",
+            },
+            keyframes: {
+              blob: {
+                "0%": { transform: "translate(0px, 0px) scale(1)" },
+                "33%": { transform: "translate(30px, -50px) scale(1.1)" },
+                "66%": { transform: "translate(-20px, 20px) scale(0.9)" },
+                "100%": { transform: "translate(0px, 0px) scale(1)" },
+              },
+              drift: {
+                "0%": { transform: "translateY(0) translateX(0)" },
+                "50%": { transform: "translateY(-20px) translateX(10px)" },
+                "100%": { transform: "translateY(0) translateX(0)" },
+              },
+              marquee: {
+                "0%": { transform: "translateX(0%)" },
+                "100%": { transform: "translateX(-50%)" },
+              },
+              fadeIn: {
+                "0%": { opacity: "0" },
+                "100%": { opacity: "1" },
+              },
+              fadeInUp: {
+                "0%": { opacity: "0", transform: "translateY(20px)" },
+                "100%": { opacity: "1", transform: "translateY(0)" },
+              },
+              fadeOut: {
+                "0%": { opacity: "1" },
+                "100%": { opacity: "0" },
+              }
+            },
+          }
+        }
+      }
+    </script>
+    <style>
+      html {
+        scroll-behavior: smooth;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #2C2420; 
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #8B7355; 
+        border-radius: 3px;
+      }
+
+      .bg-noise {
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+      }
+
+      .bg-grid-pattern {
+        background-image: linear-gradient(to right, rgba(139, 115, 85, 0.05) 1px, transparent 1px),
+                          linear-gradient(to bottom, rgba(139, 115, 85, 0.05) 1px, transparent 1px);
+        background-size: 40px 40px;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "lottie-react": "https://esm.sh/lottie-react@^2.4.0",
+    "shopify-buy": "https://esm.sh/shopify-buy@2.20.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="bg-[#F5F1E8] text-[#2C2420] antialiased overflow-x-hidden selection:bg-justo-brown selection:text-white">
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
