@@ -16,7 +16,7 @@ import { ProductModal } from './components/ProductModal';
 import { CoffeeLoader } from './components/CoffeeLoader';
 import { AnnouncementBar } from './components/AnnouncementBar';
 import { CartItem, Product, ProductVariant, ViewState } from './types';
-import { addToCartLogic, removeFromCartLogic } from './services/cartService';
+import { addToCartLogic, removeFromCartLogic, updateQuantityLogic } from './services/cartService';
 
 function App() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
@@ -42,6 +42,10 @@ function App() {
 
   const handleRemoveFromCart = (id: string) => {
     setCartItems(prev => removeFromCartLogic(prev, id));
+  };
+
+  const handleUpdateQuantity = (id: string, quantity: number) => {
+    setCartItems(prev => updateQuantityLogic(prev, id, quantity));
   };
 
   const handleQuickView = (product: Product) => {
@@ -126,6 +130,7 @@ function App() {
           onClose={() => setIsCartOpen(false)}
           items={cartItems}
           onRemove={handleRemoveFromCart}
+          onUpdateQuantity={handleUpdateQuantity}
         />
 
         {selectedProduct && (

@@ -19,7 +19,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, currentView }) => {
       {currentView !== 'subscription' && (
         <button
           onClick={() => window.open('https://wa.me/573144628067', '_blank')}
-          className="fixed bottom-24 right-6 z-50 bg-[#25D366] hover:bg-[#20bd5a] text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 group"
+          className="fixed bottom-32 md:bottom-24 right-6 z-50 bg-[#25D366] hover:bg-[#20bd5a] text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 group"
           aria-label="Contactar por WhatsApp"
         >
           <MessageCircle size={24} strokeWidth={2} />

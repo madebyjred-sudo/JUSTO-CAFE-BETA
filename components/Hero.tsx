@@ -33,7 +33,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
   };
 
   return (
-    <section className="relative h-screen w-full overflow-hidden bg-justo-dark">
+    <section className="relative h-[100dvh] w-full overflow-hidden bg-justo-dark">
 
       {/* Video Background Layer */}
       <div className="absolute inset-0 z-0">
@@ -115,7 +115,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
           style={{
             transform: `translate3d(${islandPos.x}px, ${islandPos.y}px, 0)`,
           }}
-          className="p-6 -m-6 cursor-pointer transition-transform duration-300 ease-out will-change-transform group"
+          className="p-6 -m-6 cursor-pointer transition-transform duration-300 ease-out will-change-transform group tap-highlight-transparent"
           aria-label="Deslizar hacia abajo"
         >
           <div className="w-32 h-1 bg-white/10 backdrop-blur-md rounded-full overflow-hidden border border-white/10 shadow-[0_0_20px_rgba(255,255,255,0.1)] group-hover:border-white/20 transition-colors">
@@ -123,8 +123,8 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
             <div className="h-full bg-justo-cream/80 w-1/3 rounded-full animate-[drift_2s_ease-in-out_infinite_alternate] group-hover:w-1/2 transition-all duration-500"></div>
           </div>
 
-          {/* Subtle Chevron appearing on hover to indicate scroll functionality */}
-          <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-justo-cream/50">
+          {/* Subtle Chevron - Always visible on mobile to guide users, hover on desktop */}
+          <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-500 text-justo-cream/50">
             <ChevronDown size={16} className="animate-bounce" />
           </div>
         </div>

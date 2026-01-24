@@ -45,3 +45,14 @@ export const addToCartLogic = (currentCart: CartItem[], product: Product, varian
 export const removeFromCartLogic = (currentCart: CartItem[], cartItemId: string): CartItem[] => {
   return currentCart.filter(item => item.id !== cartItemId);
 };
+
+export const updateQuantityLogic = (currentCart: CartItem[], cartItemId: string, newQuantity: number): CartItem[] => {
+  if (newQuantity < 1) {
+    return removeFromCartLogic(currentCart, cartItemId);
+  }
+  return currentCart.map(item => 
+    item.id === cartItemId 
+      ? { ...item, quantity: newQuantity } 
+      : item
+  );
+};

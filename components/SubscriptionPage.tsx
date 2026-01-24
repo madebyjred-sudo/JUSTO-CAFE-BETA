@@ -6,6 +6,7 @@ import { PRODUCTS } from '../constants';
 import { formatCurrency } from '../services/cartService';
 import { CoffeeLoader } from './CoffeeLoader';
 import { RevealOnScroll } from './RevealOnScroll';
+import { ProductCardV2 } from './ProductCardV2';
 
 interface SubscriptionPageProps {
     onAddToCart: (product: Product, variant?: ProductVariant) => void;
@@ -266,7 +267,7 @@ export const SubscriptionPage: React.FC<SubscriptionPageProps> = ({ onAddToCart 
             </section>
 
             {/* Sticky Mobile CTA */}
-            <div className="md:hidden fixed bottom-6 left-6 right-6 z-40">
+            <div className="md:hidden fixed bottom-32 left-6 right-6 z-40">
                 <Button variant="primary" fullWidth size="lg" className="shadow-2xl" onClick={() => { setStep('method'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
                     Empezar Suscripción
                 </Button>
@@ -277,29 +278,29 @@ export const SubscriptionPage: React.FC<SubscriptionPageProps> = ({ onAddToCart 
     const renderMethod = () => (
         <div className="w-full max-w-5xl mx-auto animate-fade-in-up">
             <div className="mb-8 text-center">
-                <button onClick={() => setStep('landing')} className="text-xs font-bold uppercase tracking-widest text-justo-dark/40 hover:text-justo-brown mb-4">← Volver al inicio</button>
-                <h2 className="font-heading text-5xl text-justo-dark mb-4">¿Cómo preparas tu café?</h2>
-                <p className="font-sans text-justo-dark/60 mb-12">Elige tu método favorito.</p>
+                <button onClick={() => setStep('landing')} className="text-xs font-bold uppercase tracking-widest text-justo-dark/40 hover:text-justo-brown mb-4 p-2">← Volver al inicio</button>
+                <h2 className="font-heading text-4xl md:text-5xl text-justo-dark mb-4">¿Cómo preparas tu café?</h2>
+                <p className="font-sans text-justo-dark/60 mb-8 md:mb-12">Elige tu método favorito.</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
                 {[
-                    { id: 'espresso', label: 'Máquina Espresso', icon: Coffee },
-                    { id: 'pour-over', label: 'Filtrado / Dripper', icon: Filter },
-                    { id: 'french', label: 'Prensa Francesa', icon: Beaker },
-                    { id: 'auto', label: 'Cafetera Eléctrica', icon: RefreshCcw },
+                    { id: 'espresso', label: 'Espresso', icon: Coffee },
+                    { id: 'pour-over', label: 'Filtrado', icon: Filter },
+                    { id: 'french', label: 'Prensa', icon: Beaker },
+                    { id: 'auto', label: 'Cafetera', icon: RefreshCcw },
                     { id: 'cold', label: 'Cold Brew', icon: Package },
-                    { id: 'instant', label: 'No tengo equipos', icon: Coffee },
+                    { id: 'instant', label: 'Sin equipos', icon: Coffee },
                 ].map((item) => (
                     <button
                         key={item.id}
                         onClick={() => handleMethodSelect(item.id)}
-                        className="group relative flex flex-col items-center justify-center p-10 bg-white border border-justo-dark/10 rounded-golden-lg hover:border-justo-brown hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                        className="group relative flex flex-col items-center justify-center p-6 md:p-10 bg-white border border-justo-dark/10 rounded-golden-lg hover:border-justo-brown hover:shadow-xl active:scale-95 transition-all duration-300 md:hover:-translate-y-1"
                     >
-                        <div className="mb-6 text-justo-dark/40 group-hover:text-justo-brown transition-colors">
-                            <item.icon size={48} strokeWidth={1} />
+                        <div className="mb-4 md:mb-6 text-justo-dark/40 group-hover:text-justo-brown transition-colors">
+                            <item.icon size={32} className="md:w-12 md:h-12" strokeWidth={1} />
                         </div>
-                        <span className="font-body font-bold text-lg uppercase tracking-wider text-justo-dark">
+                        <span className="font-body font-bold text-sm md:text-lg uppercase tracking-wider text-justo-dark text-center">
                             {item.label}
                         </span>
                     </button>
@@ -310,45 +311,45 @@ export const SubscriptionPage: React.FC<SubscriptionPageProps> = ({ onAddToCart 
 
     const renderPreference = () => (
         <div className="w-full max-w-6xl mx-auto animate-fade-in-up">
-            <button onClick={() => setStep('method')} className="block mx-auto text-xs font-bold uppercase tracking-widest text-justo-dark/40 hover:text-justo-brown mb-8">← Volver</button>
-            <h2 className="font-heading text-5xl text-center text-justo-dark mb-4">¿Qué perfil prefieres?</h2>
-            <p className="font-sans text-center text-justo-dark/60 mb-12">Elige la imagen que más te atraiga.</p>
+            <button onClick={() => setStep('method')} className="block mx-auto text-xs font-bold uppercase tracking-widest text-justo-dark/40 hover:text-justo-brown mb-8 p-2">← Volver</button>
+            <h2 className="font-heading text-4xl md:text-5xl text-center text-justo-dark mb-4">¿Qué perfil prefieres?</h2>
+            <p className="font-sans text-center text-justo-dark/60 mb-8 md:mb-12">Elige la imagen que más te atraiga.</p>
 
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <button onClick={() => handlePreferenceSelect('bright')} className="group text-left">
-                    <div className="aspect-square overflow-hidden rounded-golden-lg mb-4 relative">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+                <button onClick={() => handlePreferenceSelect('bright')} className="group text-left active:scale-95 transition-transform">
+                    <div className="aspect-square overflow-hidden rounded-golden-lg mb-3 md:mb-4 relative">
                         <img src="https://images.pexels.com/photos/324028/pexels-photo-324028.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Frutas" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                         <div className="absolute inset-0 bg-yellow-500/20 group-hover:bg-transparent transition-colors"></div>
                     </div>
-                    <h3 className="font-body font-bold text-2xl uppercase text-justo-dark mb-1">Brillante & Floral</h3>
-                    <p className="font-sans text-sm text-justo-dark/60">Vibrante, acidez cítrica, delicado y frutal.</p>
+                    <h3 className="font-body font-bold text-lg md:text-2xl uppercase text-justo-dark mb-1">Brillante</h3>
+                    <p className="font-sans text-xs md:text-sm text-justo-dark/60 leading-tight">Vibrante, cítrico y delicado.</p>
                 </button>
 
-                <button onClick={() => handlePreferenceSelect('complex')} className="group text-left">
-                    <div className="aspect-square overflow-hidden rounded-golden-lg mb-4 relative">
+                <button onClick={() => handlePreferenceSelect('complex')} className="group text-left active:scale-95 transition-transform">
+                    <div className="aspect-square overflow-hidden rounded-golden-lg mb-3 md:mb-4 relative">
                         <img src="https://images.pexels.com/photos/302902/pexels-photo-302902.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Caramelo" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                         <div className="absolute inset-0 bg-orange-500/20 group-hover:bg-transparent transition-colors"></div>
                     </div>
-                    <h3 className="font-body font-bold text-2xl uppercase text-justo-dark mb-1">Dulce & Complejo</h3>
-                    <p className="font-sans text-sm text-justo-dark/60">Frutos rojos, caramelo y cuerpo medio.</p>
+                    <h3 className="font-body font-bold text-lg md:text-2xl uppercase text-justo-dark mb-1">Complejo</h3>
+                    <p className="font-sans text-xs md:text-sm text-justo-dark/60 leading-tight">Frutos rojos, caramelo y cuerpo.</p>
                 </button>
 
-                <button onClick={() => handlePreferenceSelect('balanced')} className="group text-left">
-                    <div className="aspect-square overflow-hidden rounded-golden-lg mb-4 relative">
+                <button onClick={() => handlePreferenceSelect('balanced')} className="group text-left active:scale-95 transition-transform">
+                    <div className="aspect-square overflow-hidden rounded-golden-lg mb-3 md:mb-4 relative">
                         <img src="https://images.pexels.com/photos/885021/pexels-photo-885021.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Chocolate" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                         <div className="absolute inset-0 bg-amber-900/20 group-hover:bg-transparent transition-colors"></div>
                     </div>
-                    <h3 className="font-body font-bold text-2xl uppercase text-justo-dark mb-1">Clásico & Rico</h3>
-                    <p className="font-sans text-sm text-justo-dark/60">Chocolate oscuro, nueces y panela.</p>
+                    <h3 className="font-body font-bold text-lg md:text-2xl uppercase text-justo-dark mb-1">Clásico</h3>
+                    <p className="font-sans text-xs md:text-sm text-justo-dark/60 leading-tight">Chocolate oscuro y nueces.</p>
                 </button>
 
-                <button onClick={() => handlePreferenceSelect('explore')} className="group text-left">
-                    <div className="aspect-square overflow-hidden rounded-golden-lg mb-4 relative">
+                <button onClick={() => handlePreferenceSelect('explore')} className="group text-left active:scale-95 transition-transform">
+                    <div className="aspect-square overflow-hidden rounded-golden-lg mb-3 md:mb-4 relative">
                         <img src="https://images.pexels.com/photos/374885/pexels-photo-374885.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Mix" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                         <div className="absolute inset-0 bg-purple-500/20 group-hover:bg-transparent transition-colors"></div>
                     </div>
-                    <h3 className="font-body font-bold text-2xl uppercase text-justo-dark mb-1">Sorpréndeme</h3>
-                    <p className="font-sans text-sm text-justo-dark/60">Quiero probar diferentes orígenes rotativos.</p>
+                    <h3 className="font-body font-bold text-lg md:text-2xl uppercase text-justo-dark mb-1">Sorpresa</h3>
+                    <p className="font-sans text-xs md:text-sm text-justo-dark/60 leading-tight">Orígenes rotativos.</p>
                 </button>
             </div>
         </div>
@@ -365,7 +366,7 @@ export const SubscriptionPage: React.FC<SubscriptionPageProps> = ({ onAddToCart 
                     <button
                         key={opt}
                         onClick={() => handleFrequencySelect(opt)}
-                        className="w-full p-6 bg-white border border-justo-dark/10 rounded-golden-md flex items-center justify-between group hover:border-justo-dark transition-all"
+                        className="w-full p-6 bg-white border border-justo-dark/10 rounded-golden-md flex items-center justify-between group hover:border-justo-dark active:scale-95 transition-all"
                     >
                         <span className="font-body text-xl font-bold uppercase tracking-wider text-justo-dark">{opt}</span>
                         <span className="opacity-0 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0 transition-all text-justo-brown">
@@ -444,7 +445,23 @@ export const SubscriptionPage: React.FC<SubscriptionPageProps> = ({ onAddToCart 
                 Tu Match Perfecto
             </span>
 
-            <div className="w-full bg-justo-dark/10 backdrop-blur-md border border-justo-dark/10 rounded-[1.5rem] overflow-hidden flex flex-col md:flex-row shadow-sm group">
+            {/* Mobile View: ProductCardV2 */}
+            <div className="md:hidden w-full px-2">
+                <ProductCardV2 
+                    product={matchedProduct} 
+                    onAddToCart={onAddToCart} 
+                    onQuickView={() => {}} 
+                />
+                <button
+                    onClick={() => setStep('landing')}
+                    className="w-full mt-6 text-xs font-bold uppercase tracking-widest text-justo-dark/40 hover:text-justo-dark transition-colors text-center py-4"
+                >
+                    Volver al inicio
+                </button>
+            </div>
+
+            {/* Desktop View: Detailed Landscape Card */}
+            <div className="hidden md:flex w-full bg-justo-dark/10 backdrop-blur-md border border-justo-dark/10 rounded-[1.5rem] overflow-hidden flex-col md:flex-row shadow-sm group">
                 <div className="w-full md:w-1/2 bg-[#EBE5D9] relative h-[400px] md:h-auto">
                     <img
                         src={matchedProduct.image}
@@ -530,7 +547,7 @@ export const SubscriptionPage: React.FC<SubscriptionPageProps> = ({ onAddToCart 
     );
 
     return (
-        <div className="min-h-screen bg-[#F5F1E8] pt-32 pb-48 px-6 relative z-10">
+        <div className="min-h-screen bg-[#F5F1E8] pt-24 md:pt-32 pb-48 px-4 md:px-6 relative z-10">
 
             {/* Progress Bar (Only inside quiz steps) */}
             {step !== 'landing' && step !== 'result' && !isThinking && (

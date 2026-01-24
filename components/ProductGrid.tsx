@@ -5,6 +5,7 @@ import { Product, ProductVariant } from '../types';
 import { formatCurrency } from '../services/cartService';
 import { RevealOnScroll } from './RevealOnScroll';
 import { ScaChart } from './ScaChart';
+import { ProductCardV2 } from './ProductCardV2';
 
 interface ProductGridProps {
     onAddToCart: (product: Product, variant?: ProductVariant) => void;
@@ -157,7 +158,7 @@ const GridProductCard: React.FC<{
 
                     {/* Action Buttons - Moved here for better visibility */}
                     {!isWide && (
-                        <div className="flex gap-3 mt-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 h-0 group-hover:h-auto overflow-hidden group-hover:overflow-visible">
+                        <div className="flex gap-3 mt-3 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-all duration-300 transform translate-y-0 md:translate-y-2 md:group-hover:translate-y-0 h-auto md:h-0 md:group-hover:h-auto overflow-visible md:overflow-hidden md:group-hover:overflow-visible">
                             <div
                                 onClick={(e) => { e.stopPropagation(); onQuickView(product); }}
                                 className="bg-white border border-justo-dark/10 text-justo-dark w-10 h-10 flex items-center justify-center rounded-full hover:bg-justo-dark hover:text-white transition-all duration-300 shadow-sm cursor-pointer hover:scale-105"
@@ -172,7 +173,10 @@ const GridProductCard: React.FC<{
                             >
                                 <Plus size={18} strokeWidth={1.5} />
                             </div>
-                            <span className="text-[10px] uppercase font-bold tracking-widest text-justo-dark/40 self-center ml-auto">
+                            <span className="md:hidden text-[10px] uppercase font-bold tracking-widest text-justo-dark/40 self-center ml-auto">
+                                Añadir
+                            </span>
+                            <span className="hidden md:inline text-[10px] uppercase font-bold tracking-widest text-justo-dark/40 self-center ml-auto">
                                 Vista Rápida
                             </span>
                         </div>
@@ -214,6 +218,12 @@ const GridProductCard: React.FC<{
 
 export const ProductGrid: React.FC<ProductGridProps> = ({ onAddToCart, onQuickView, onViewAll }) => {
     const carouselItems = [...PRODUCTS, ...PRODUCTS, ...PRODUCTS, ...PRODUCTS];
+    
+    // Select specific products for mobile view (Kit + 1 Highlight)
+    const mobileProducts = [
+        PRODUCTS.find(p => p.isKit),
+        PRODUCTS.find(p => !p.isKit)
+    ].filter((p): p is Product => p !== undefined);
 
     return (
         <section id="shop" className="relative z-30 pt-12 pb-24 bg-[#F5F1E8]">
@@ -246,25 +256,49 @@ export const ProductGrid: React.FC<ProductGridProps> = ({ onAddToCart, onQuickVi
                 </div>
             </RevealOnScroll>
 
-            {/* Marquee Container */}
+            {/* Content Container */}
             <RevealOnScroll delay={200}>
-                <div className="relative w-full z-10 overflow-hidden" aria-label="Carrusel de productos destacados">
+                <div className="relative w-full z-10" aria-label="Carrusel de productos destacados">
 
-                    {/* Gradient Masks (Decorative) */}
-                    <div className="absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-r from-[#F5F1E8] to-transparent z-10 pointer-events-none" aria-hidden="true"></div>
-                    <div className="absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-l from-[#F5F1E8] to-transparent z-10 pointer-events-none" aria-hidden="true"></div>
+                    {/* Desktop Marquee Track (Only on MD+) */}
+                    <div className="hidden md:block relative overflow-hidden">
+                        {/* Gradient Masks (Decorative) */}
+                        <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-[#F5F1E8] to-transparent z-10 pointer-events-none" aria-hidden="true"></div>
+                        <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-[#F5F1E8] to-transparent z-10 pointer-events-none" aria-hidden="true"></div>
 
-                    {/* Moving Track */}
-                    <div className="flex w-max animate-marquee hover:[animation-play-state:paused] gap-8 pl-8 focus-within:[animation-play-state:paused] py-4">
-                        {carouselItems.map((product, index) => (
-                            <GridProductCard
-                                key={`${product.id}-${index}`}
+                        <div className="flex w-max animate-marquee hover:[animation-play-state:paused] gap-8 pl-8 focus-within:[animation-play-state:paused] py-4">
+                            {carouselItems.map((product, index) => (
+                                <GridProductCard
+                                    key={`desktop-${product.id}-${index}`}
+                                    product={product}
+                                    isWide={!!product.isKit}
+                                    onAddToCart={onAddToCart}
+                                    onQuickView={onQuickView}
+                                />
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Mobile Vertical Stack (Only on Mobile) */}
+                    <div className="md:hidden flex flex-col gap-6 px-4 pb-8">
+                         {mobileProducts.map((product) => (
+                            <ProductCardV2
+                                key={`mobile-home-${product.id}`}
                                 product={product}
-                                isWide={!!product.isKit}
                                 onAddToCart={onAddToCart}
                                 onQuickView={onQuickView}
                             />
                         ))}
+                        
+                        {/* Mobile "View All" Button */}
+                        <div className="mt-4 flex justify-center">
+                             <button
+                                onClick={onViewAll}
+                                className="w-full py-4 border border-justo-dark/20 rounded-[1.5rem] font-body font-bold text-justo-dark uppercase tracking-widest hover:bg-justo-dark hover:text-justo-cream transition-colors"
+                             >
+                                Ver Toda la Tienda
+                             </button>
+                        </div>
                     </div>
                 </div>
             </RevealOnScroll>
