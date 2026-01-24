@@ -3,6 +3,7 @@ import { X, Check } from 'lucide-react';
 import { Product, ProductVariant } from '../types';
 import { Button } from './Button';
 import { formatCurrency } from '../services/cartService';
+import { ScaSheet } from './ScaSheet';
 
 interface ProductModalProps {
   product: Product;
@@ -99,27 +100,44 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onC
         </button>
 
         {/* Left: Image */}
-        <div className="w-full md:w-1/2 h-64 md:h-auto md:min-h-[500px] bg-[#EBE5D9] relative overflow-hidden group">
-          <img
-            src={product.image}
-            alt={`Foto de ${product.name}`}
-            className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 scale-135 group-hover:scale-150"
-          />
-
-          {/* Hover Image (Bag Effect) */}
-          {product.hoverImage && (
+        <div className="w-full md:w-1/2 h-64 md:h-auto md:min-h-[500px] bg-[#EBE5D9] relative overflow-hidden group flex items-center justify-center">
+          {product.isKit && product.kitImages ? (
+            <div className="w-full h-full flex items-center justify-center gap-4 px-8">
+              <img
+                src={product.kitImages[0]}
+                alt="Bolsa negra"
+                className="w-[45%] h-[80%] object-contain drop-shadow-[6px_4px_20px_rgba(44,36,32,0.25)]"
+              />
+              <img
+                src={product.kitImages[1]}
+                alt="Bolsa blanca"
+                className="w-[45%] h-[80%] object-contain drop-shadow-[6px_4px_20px_rgba(44,36,32,0.25)]"
+              />
+            </div>
+          ) : (
             <>
-              {/* Glassmorphism Layer */}
-              <div className="absolute inset-0 bg-black/40 backdrop-blur-[3px] opacity-0 group-hover:opacity-100 transition-all duration-500 z-10" />
+              <img
+                src={product.image}
+                alt={`Foto de ${product.name}`}
+                className="absolute inset-0 w-full h-full object-contain drop-shadow-[6px_4px_20px_rgba(44,36,32,0.25)]"
+              />
 
-              {/* Bag Image with Glow */}
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-500 z-20">
-                <img
-                  src={product.hoverImage}
-                  alt={`${product.name} Bag`}
-                  className="w-[70%] h-[70%] object-contain drop-shadow-[0_0_25px_rgba(255,255,255,0.3)] scale-100 group-hover:scale-105 transition-transform duration-700"
-                />
-              </div>
+              {/* Hover Image (Bag Effect) */}
+              {product.hoverImage && (
+                <>
+                  {/* Glassmorphism Layer */}
+                  <div className="absolute inset-0 bg-black/40 backdrop-blur-[3px] opacity-0 group-hover:opacity-100 transition-all duration-500 z-10" />
+
+                  {/* Bag Image with Glow */}
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-500 z-20">
+                    <img
+                      src={product.hoverImage}
+                      alt={`${product.name} Bag`}
+                      className="w-[70%] h-[70%] object-contain drop-shadow-[6px_4px_20px_rgba(44,36,32,0.25),0_0_25px_rgba(255,255,255,0.3)] scale-100 group-hover:scale-105 transition-transform duration-700"
+                    />
+                  </div>
+                </>
+              )}
             </>
           )}
           {/* Badge Overlay */}
@@ -164,6 +182,13 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onC
                   ))}
                 </div>
               </div>
+
+              {/* SCA Score Sheet */}
+              {!product.isKit && product.scaScore && product.scaAttributes && (
+                 <div className="mt-2">
+                   <ScaSheet score={product.scaScore} attributes={product.scaAttributes} />
+                 </div>
+              )}
 
               {!product.isKit && (
                 <div className="flex flex-col gap-4 border-t border-justo-dark/10 pt-6 mt-6">

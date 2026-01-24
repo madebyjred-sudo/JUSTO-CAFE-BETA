@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Eye, Plus, ArrowRight } from 'lucide-react';
+import { Eye, Plus, ArrowRight, Award } from 'lucide-react';
 import { PRODUCTS } from '../constants';
 import { Product, ProductVariant } from '../types';
 import { formatCurrency } from '../services/cartService';
 import { RevealOnScroll } from './RevealOnScroll';
+import { ScaChart } from './ScaChart';
 
 interface ProductGridProps {
     onAddToCart: (product: Product, variant?: ProductVariant) => void;
@@ -37,8 +38,30 @@ const GridProductCard: React.FC<{
                     ? 'w-[600px] flex-row h-[380px]'
                     : 'w-[280px] flex-col h-[380px]'
                 } 
+            relative
         `}
         >
+            {/* Score Badge - Outside image to avoid clipping if tooltip expands */}
+            {product.scaScore && product.scaAttributes && (
+                <div className="absolute top-4 right-4 z-40 group/score flex flex-col items-center gap-0.5">
+                    <div className="bg-justo-brown text-white w-9 h-9 flex items-center justify-center rounded-full shadow-lg cursor-help transition-transform hover:scale-110 ring-2 ring-white/20">
+                        <span className="font-bold text-[10px] font-body">{product.scaScore}</span>
+                    </div>
+                    <span className="text-[8px] font-bold text-justo-brown uppercase tracking-widest bg-white/40 backdrop-blur-[2px] px-1.5 rounded-sm shadow-sm">SCA</span>
+
+                    {/* Tooltip */}
+                    <div className="absolute top-full right-0 mt-2 w-[260px] bg-[#FDFBF7] p-3 rounded-xl shadow-xl border border-justo-brown/20 opacity-0 invisible group-hover/score:opacity-100 group-hover/score:visible transition-all duration-300 origin-top-right z-50 pointer-events-none">
+                        <div className="flex items-center gap-2 mb-2 border-b border-justo-dark/5 pb-2">
+                            <Award size={14} className="text-justo-brown" />
+                            <span className="text-[10px] font-bold uppercase text-justo-dark tracking-widest">Perfil de Taza</span>
+                        </div>
+                        <div className="w-full aspect-square">
+                            <ScaChart attributes={product.scaAttributes} size={240} />
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {/* Image Section */}
             <button
                 type="button"
@@ -49,26 +72,25 @@ const GridProductCard: React.FC<{
                 onClick={() => onQuickView(product)}
                 aria-label={`Ver detalles de ${product.name}`}
             >
-                <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-                />
-
-                {/* Hover Image (Bag Effect) */}
-                {product.hoverImage && (
-                    <>
-                        {/* Glassmorphism Layer (Blur + Darken Background) */}
-                        <div className="absolute inset-0 bg-black/40 backdrop-blur-[3px] opacity-0 group-hover:opacity-100 transition-all duration-500 z-10" />
-
-                        {/* Bag Image with Glow */}
-                        {/* Bag Image with Glow - REDUCED SIZE */}
+                {product.isKit && product.kitImages ? (
+                    <div className="w-full h-full flex items-center justify-center gap-2 px-4">
                         <img
-                            src={product.hoverImage}
-                            alt={`${product.name} Bag`}
-                            className="absolute inset-0 w-full h-full object-contain p-8 opacity-0 group-hover:opacity-100 transition-all duration-500 z-20 scale-90 group-hover:scale-95 drop-shadow-[0_0_20px_rgba(255,255,255,0.25)]"
+                            src={product.kitImages[0]}
+                            alt="Bolsa negra"
+                            className="w-[45%] h-[80%] object-contain drop-shadow-[6px_4px_20px_rgba(44,36,32,0.25)]"
                         />
-                    </>
+                        <img
+                            src={product.kitImages[1]}
+                            alt="Bolsa blanca"
+                            className="w-[45%] h-[80%] object-contain drop-shadow-[6px_4px_20px_rgba(44,36,32,0.25)]"
+                        />
+                    </div>
+                ) : (
+                    <img
+                        src={product.image}
+                        alt={product.name}
+                        className="w-[90%] h-[90%] object-contain mx-auto my-auto drop-shadow-[6px_4px_20px_rgba(44,36,32,0.25)]"
+                    />
                 )}
 
 

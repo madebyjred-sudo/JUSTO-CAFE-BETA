@@ -78,16 +78,13 @@ function App() {
                 ${isLoading ? 'opacity-100 pointer-events-auto' : 'opacity-0 scale-105'}
             `}
       >
-        {/* Title & Subtitle First */}
-        <div className="text-center mb-6">
-          <h2 className="font-heading text-5xl md:text-6xl text-justo-dark animate-fade-in-up mb-3">
-            Justo Café
-          </h2>
-          <div className="overflow-hidden">
-            <span className="block font-body text-xs uppercase tracking-[0.4em] text-justo-brown animate-fade-in-up">
-              Origen Consciente
-            </span>
-          </div>
+        {/* Logo */}
+        <div className="text-center mb-6 animate-fade-in-up">
+          <img
+            src="/images/LOGO negro.png"
+            alt="Justo Café"
+            className="h-32 md:h-40 w-auto mx-auto"
+          />
         </div>
 
         {/* Minimalist Dots Loader Below */}
@@ -111,7 +108,7 @@ function App() {
 
         <main className="flex-grow relative z-10">
           {currentView === 'home' && <HomeView />}
-          {currentView === 'shop' && <ShopPage onAddToCart={handleAddToCart} />}
+          {currentView === 'shop' && <ShopPage onAddToCart={handleAddToCart} onQuickView={handleQuickView} />}
           {currentView === 'subscription' && <SubscriptionPage onAddToCart={handleAddToCart} />}
           {currentView === 'origin' && (
             <OriginPage

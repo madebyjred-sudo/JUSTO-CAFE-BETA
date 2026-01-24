@@ -4,13 +4,46 @@ import { Product, ProductVariant } from '../types';
 import { Subscription } from './Subscription';
 import { formatCurrency } from '../services/cartService';
 import { RevealOnScroll } from './RevealOnScroll';
+import {
+    Package,
+    Gift,
+    Star,
+    Flame,
+    Droplet,
+    Bean,
+    Leaf,
+    Sun,
+    Flower,
+    Sparkles,
+    Eye,
+    Award
+} from 'lucide-react';
+import { ScaChart } from './ScaChart';
 
 interface ShopPageProps {
     onAddToCart: (product: Product, variant?: ProductVariant) => void;
+    onQuickView: (product: Product) => void;
 }
 
+const iconMap: Record<string, React.ElementType> = {
+    package: Package,
+    gift: Gift,
+    star: Star,
+    flame: Flame,
+    droplet: Droplet,
+    bean: Bean,
+    leaf: Leaf,
+    sun: Sun,
+    flower: Flower,
+    sparkles: Sparkles
+};
+
 // Sub-component to handle individual card state (selected weight)
-const ShopProductCard: React.FC<{ product: Product, onAddToCart: (p: Product, v?: ProductVariant) => void }> = ({ product, onAddToCart }) => {
+const ShopProductCard: React.FC<{ 
+    product: Product, 
+    onAddToCart: (p: Product, v?: ProductVariant) => void,
+    onQuickView: (p: Product) => void 
+}> = ({ product, onAddToCart, onQuickView }) => {
     // Default to the first variant if available, else null
     const [selectedVariant, setSelectedVariant] = useState<ProductVariant | undefined>(
         product.variants ? product.variants[0] : undefined
@@ -21,36 +54,66 @@ const ShopProductCard: React.FC<{ product: Product, onAddToCart: (p: Product, v?
 
     return (
         <RevealOnScroll>
-            <div className="w-full bg-justo-dark/10 backdrop-blur-md border border-justo-dark/10 rounded-[1.5rem] overflow-hidden flex flex-col lg:flex-row shadow-sm transition-all duration-500 hover:shadow-2xl hover:-translate-y-1 group">
+            <div className="w-full bg-[#F5F1E8] rounded-[1.5rem] overflow-hidden flex flex-col lg:flex-row shadow-sm transition-all duration-500 hover:shadow-2xl hover:-translate-y-1 group">
 
                 {/* 1. PRODUCT PHOTO */}
-                <div className="w-full lg:w-[40%] bg-[#EBE5D9] relative h-64 lg:h-auto min-h-[300px]">
-                    <img
-                        src={product.image}
-                        alt={product.name}
-                        className="absolute inset-0 w-full h-full object-cover opacity-100 hover:scale-105 transition-transform duration-700"
-                    />
-
-                    {/* Hover Image (Bag Effect) */}
-                    {product.hoverImage && (
-                        <>
-                            {/* Glass Overlay */}
-                            <div className="absolute inset-0 bg-black/40 backdrop-blur-[3px] opacity-0 group-hover:opacity-100 transition-all duration-500 z-10" />
-
-                            {/* Bag with Glow */}
-                            <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-500 z-20 scale-100 group-hover:scale-105">
-                                <img
-                                    src={product.hoverImage}
-                                    alt={`${product.name} Bag`}
-                                    className="w-[90%] h-[90%] object-contain drop-shadow-[0_0_25px_rgba(255,255,255,0.3)]"
-                                />
+                <div 
+                    className="w-full lg:w-[40%] bg-[#F5F1E8] relative h-64 lg:h-auto min-h-[300px] flex items-center justify-center cursor-pointer group/image"
+                    onClick={() => onQuickView(product)}
+                >
+                    {/* Score Badge */}
+                    {product.scaScore && product.scaAttributes && (
+                        <div className="absolute top-4 right-4 z-40 group/score flex flex-col items-center gap-0.5">
+                            <div className="bg-justo-brown text-white w-9 h-9 flex items-center justify-center rounded-full shadow-lg cursor-help transition-transform hover:scale-110 ring-2 ring-white/20">
+                                <span className="font-bold text-[10px] font-body">{product.scaScore}</span>
                             </div>
-                        </>
+                            <span className="text-[8px] font-bold text-justo-brown uppercase tracking-widest bg-white/40 backdrop-blur-[2px] px-1.5 rounded-sm shadow-sm">SCA</span>
+
+                            {/* Tooltip */}
+                            <div className="absolute top-full right-0 mt-2 w-[260px] bg-[#FDFBF7] p-3 rounded-xl shadow-xl border border-justo-brown/20 opacity-0 invisible group-hover/score:opacity-100 group-hover/score:visible transition-all duration-300 origin-top-right z-50 pointer-events-none">
+                                <div className="flex items-center gap-2 mb-2 border-b border-justo-dark/5 pb-2">
+                                    <Award size={14} className="text-justo-brown" />
+                                    <span className="text-[10px] font-bold uppercase text-justo-dark tracking-widest">Perfil de Taza</span>
+                                </div>
+                                <div className="w-full aspect-square">
+                                    <ScaChart attributes={product.scaAttributes} size={240} />
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Hover Overlay with Eye Icon */}
+                    <div className="absolute inset-0 bg-black/5 opacity-0 group-hover/image:opacity-100 transition-opacity duration-300 flex items-center justify-center z-20">
+                         <div className="bg-white/90 text-justo-dark px-4 py-2 rounded-full shadow-lg flex items-center gap-2 transform translate-y-4 group-hover/image:translate-y-0 transition-transform duration-300">
+                            <Eye size={20} />
+                            <span className="font-body font-bold text-sm uppercase tracking-wider">Ver Detalles</span>
+                         </div>
+                    </div>
+
+                    {product.isKit && product.kitImages ? (
+                        <div className="w-full h-full flex items-center justify-center gap-3 px-6">
+                            <img
+                                src={product.kitImages[0]}
+                                alt="Bolsa negra"
+                                className="w-[45%] h-[80%] object-contain drop-shadow-[6px_4px_20px_rgba(44,36,32,0.25)]"
+                            />
+                            <img
+                                src={product.kitImages[1]}
+                                alt="Bolsa blanca"
+                                className="w-[45%] h-[80%] object-contain drop-shadow-[6px_4px_20px_rgba(44,36,32,0.25)]"
+                            />
+                        </div>
+                    ) : (
+                        <img
+                            src={product.image}
+                            alt={product.name}
+                            className="w-[90%] h-[90%] lg:w-[60%] lg:h-[60%] object-contain drop-shadow-[6px_4px_20px_rgba(44,36,32,0.25)]"
+                        />
                     )}
                 </div>
 
                 {/* 2. INFO & ACTIONS WRAPPER */}
-                <div className="flex-1 flex flex-col md:flex-row p-6 md:p-8 gap-6 md:gap-10">
+                <div className="flex-1 flex flex-col md:flex-row p-6 md:p-8 gap-6 md:gap-10 bg-[#F5F1E8]">
 
                     {/* MIDDLE COLUMN: Info */}
                     <div className="flex-1 flex flex-col justify-between">
@@ -67,7 +130,7 @@ const ShopProductCard: React.FC<{ product: Product, onAddToCart: (p: Product, v?
                                         <span className="px-2 py-1 border border-justo-dark/20 text-justo-dark text-[10px] font-body uppercase font-bold tracking-wider rounded-sm">
                                             Doble Experiencia
                                         </span>
-                                        <span className="px-2 py-1 bg-justo-dark/10 text-justo-dark text-[10px] font-body uppercase font-bold tracking-wider rounded-sm">
+                                        <span className="px-2 py-1 bg-justo-dark/20 text-justo-dark text-[10px] font-body uppercase font-bold tracking-wider rounded-sm">
                                             Más Vendido
                                         </span>
                                     </>
@@ -79,9 +142,28 @@ const ShopProductCard: React.FC<{ product: Product, onAddToCart: (p: Product, v?
                             </div>
 
                             {/* Description */}
-                            <p className="font-sans text-justo-dark/70 text-base leading-relaxed mb-4 max-w-md font-light">
+                            <p className="font-sans text-justo-dark/90 text-base leading-relaxed mb-6 max-w-md font-light">
                                 {product.description || `Un perfil excepcional con notas a ${product.tastingNotes.join(', ').toLowerCase()}. Ideal para métodos de filtrado.`}
                             </p>
+
+                            {/* Features Icons */}
+                            {product.features && (
+                                <div className="flex flex-wrap gap-6 mb-6">
+                                    {product.features.map((feature, index) => {
+                                        const Icon = iconMap[feature.icon] || Star;
+                                        return (
+                                            <div key={index} className="flex items-center gap-2 text-justo-dark/80 group/icon">
+                                                <div className="p-1.5 rounded-full bg-justo-dark/5 group-hover/icon:bg-justo-dark/10 transition-colors">
+                                                    <Icon size={16} strokeWidth={1.5} />
+                                                </div>
+                                                <span className="text-xs font-body font-bold uppercase tracking-wider">
+                                                    {feature.text}
+                                                </span>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            )}
                         </div>
 
                         <div className="mt-2">
@@ -96,7 +178,7 @@ const ShopProductCard: React.FC<{ product: Product, onAddToCart: (p: Product, v?
 
                         {/* Molienda Selector (Visual Only) */}
                         <div>
-                            <label className="text-[10px] font-body font-bold text-justo-dark/60 uppercase tracking-wider mb-1 block">
+                            <label className="text-[10px] font-body font-bold text-justo-dark/80 uppercase tracking-wider mb-1 block">
                                 Molienda
                             </label>
                             <div
@@ -117,7 +199,7 @@ const ShopProductCard: React.FC<{ product: Product, onAddToCart: (p: Product, v?
                         {/* Weight / Variant Selector */}
                         {product.variants && product.variants.length > 0 && (
                             <div>
-                                <label className="text-[10px] font-body font-bold text-justo-dark/60 uppercase tracking-wider mb-1 block">
+                                <label className="text-[10px] font-body font-bold text-justo-dark/80 uppercase tracking-wider mb-1 block">
                                     Peso
                                 </label>
                                 <div className="flex p-1 bg-justo-dark/5 rounded-lg border border-justo-dark/10" role="radiogroup" aria-label="Seleccionar peso">
@@ -129,7 +211,7 @@ const ShopProductCard: React.FC<{ product: Product, onAddToCart: (p: Product, v?
                                             aria-checked={selectedVariant?.id === v.id}
                                             className={`flex-1 py-2 text-xs font-bold font-body uppercase tracking-wider rounded-md transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-justo-brown ${selectedVariant?.id === v.id
                                                 ? 'bg-white text-justo-dark shadow-sm'
-                                                : 'text-justo-dark/50 hover:text-justo-dark'
+                                                : 'text-justo-dark/80 hover:text-justo-dark'
                                                 }`}
                                         >
                                             {v.weight}
@@ -169,7 +251,7 @@ const ShopProductCard: React.FC<{ product: Product, onAddToCart: (p: Product, v?
     );
 };
 
-export const ShopPage: React.FC<ShopPageProps> = ({ onAddToCart }) => {
+export const ShopPage: React.FC<ShopPageProps> = ({ onAddToCart, onQuickView }) => {
     return (
         <div className="min-h-screen bg-transparent pt-32 pb-20 relative z-10">
 
@@ -177,7 +259,7 @@ export const ShopPage: React.FC<ShopPageProps> = ({ onAddToCart }) => {
             <RevealOnScroll>
                 <div className="w-full px-8 md:px-24 mb-10">
                     <h1 className="font-heading text-6xl text-justo-dark mb-2">Todos los Cafés</h1>
-                    <p className="font-sans text-xl text-justo-dark/60 max-w-2xl font-light">
+                    <p className="font-sans text-xl text-justo-dark/80 max-w-2xl font-light">
                         Selección de origen único y blends de especialidad.
                     </p>
                 </div>
@@ -187,7 +269,12 @@ export const ShopPage: React.FC<ShopPageProps> = ({ onAddToCart }) => {
             <div className="w-full px-8 md:px-24 mb-24">
                 <div className="flex flex-col gap-6">
                     {PRODUCTS.map((product) => (
-                        <ShopProductCard key={product.id} product={product} onAddToCart={onAddToCart} />
+                        <ShopProductCard 
+                            key={product.id} 
+                            product={product} 
+                            onAddToCart={onAddToCart} 
+                            onQuickView={onQuickView}
+                        />
                     ))}
                 </div>
             </div>

@@ -15,16 +15,41 @@ export const PRODUCTS: Product[] = [
     weight: '2 x 250g',
     image: '/images/Kit macro.png',
     isKit: true,
+    kitImages: ['/images/CASTILLO NO BACK.png', '/images/TABI NO BACK.png'],
+    features: [
+      { icon: 'package', text: '2 Variedades' },
+      { icon: 'gift', text: 'Regalo Perfecto' },
+      { icon: 'star', text: 'Edición Limitada' }
+    ]
   },
   {
     id: 'castillo',
+    scaScore: 84,
+    scaAttributes: {
+      fragrance: 7.75,
+      flavor: 7.75,
+      aftertaste: 7.5,
+      acidity: 7.75,
+      body: 7.75,
+      balance: 7.75,
+      uniformity: 10,
+      cleanCup: 10,
+      sweetness: 10,
+      overall: 7.75
+    },
     name: 'Castillo',
     price: 38000,
     tastingNotes: ['Chocolate', 'Panela', 'Nuez'],
     roastLevel: 'Medio',
     weight: '250g',
-    image: '/images/Castillo macro.png',
-    hoverImage: '/images/CASTILLO NO BACK.png',
+    image: '/images/CASTILLO NO BACK.png',
+    hoverImage: '/images/Castillo macro.png',
+
+    features: [
+      { icon: 'flame', text: 'Tueste Medio' },
+      { icon: 'droplet', text: 'Cuerpo Sedoso' },
+      { icon: 'bean', text: 'Notas Dulces' }
+    ],
 
     // Configuración de Variantes
     variants: [
@@ -57,8 +82,28 @@ export const PRODUCTS: Product[] = [
     tastingNotes: ['Frutas rojas', 'Caramelo', 'Cítricos'],
     roastLevel: 'Medio-Alto',
     weight: '250g',
-    image: '/images/macro tabi.png',
-    hoverImage: '/images/TABI NO BACK.png',
+    image: '/images/TABI NO BACK.png',
+    hoverImage: '/images/macro tabi.png',
+
+    features: [
+      { icon: 'flame', text: 'Tueste Medio-Alto' },
+      { icon: 'leaf', text: 'Perfil Frutal' },
+      { icon: 'sun', text: 'Acidez Cítrica' }
+    ],
+
+    scaScore: 87,
+    scaAttributes: {
+      fragrance: 8.25,
+      flavor: 8.25,
+      aftertaste: 8.0,
+      acidity: 8.25,
+      body: 8.0,
+      balance: 8.25,
+      uniformity: 10,
+      cleanCup: 10,
+      sweetness: 10,
+      overall: 8.0
+    },
 
     variants: [
       { id: 'tabi-250', weight: '250g', price: 42000 },
@@ -72,8 +117,28 @@ export const PRODUCTS: Product[] = [
     tastingNotes: ['Floral', 'Jazmín', 'Miel'],
     roastLevel: 'Claro',
     weight: '250g',
-    image: '/images/Bourbon macro.png',
-    hoverImage: '/images/BOURBON NO BACK.png',
+    image: '/images/BOURBON NO BACK.png',
+    hoverImage: '/images/Bourbon macro.png',
+
+    features: [
+      { icon: 'flame', text: 'Tueste Claro' },
+      { icon: 'flower', text: 'Perfil Floral' },
+      { icon: 'sparkles', text: 'Acidez Brillante' }
+    ],
+
+    scaScore: 89,
+    scaAttributes: {
+      fragrance: 8.5,
+      flavor: 8.5,
+      aftertaste: 8.25,
+      acidity: 8.75,
+      body: 8.25,
+      balance: 8.5,
+      uniformity: 10,
+      cleanCup: 10,
+      sweetness: 10,
+      overall: 8.25
+    },
 
     variants: [
       { id: 'bourbon-250', weight: '250g', price: 55000 },

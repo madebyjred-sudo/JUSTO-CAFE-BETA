@@ -6,6 +6,19 @@ export interface ProductVariant {
   shopifyId?: string; // The specific ID for Shopify checkout
 }
 
+export interface ScaAttributes {
+  fragrance: number;
+  flavor: number;
+  aftertaste: number;
+  acidity: number;
+  body: number;
+  balance: number;
+  uniformity: number;
+  cleanCup: number;
+  sweetness: number;
+  overall: number;
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -17,8 +30,12 @@ export interface Product {
   image: string;
   hoverImage?: string;
   isKit?: boolean;
+  kitImages?: string[]; // For kit products: array of two bag images
   stripePriceId?: string; // Fallback ID
   variants?: ProductVariant[]; // New field for weight options
+  features?: { icon: string; text: string }[];
+  scaScore?: number;
+  scaAttributes?: ScaAttributes;
 }
 
 export interface CartItem extends Product {

@@ -92,7 +92,7 @@ export const Header: React.FC<HeaderProps> = ({
             <img
               src={!isScrolled && shouldUseDarkText ? "/images/LOGO negro.png" : "/images/Logo.png"}
               alt="Justo Café"
-              className="h-16 md:h-20 w-auto"
+              className="h-20 md:h-28 w-auto"
             />
           </div>
 
@@ -166,7 +166,7 @@ export const Header: React.FC<HeaderProps> = ({
             <img
               src="/images/Logo.png"
               alt="Justo Café"
-              className="h-16 w-auto"
+              className="h-20 md:h-24 w-auto"
             />
             <button
               onClick={() => setIsMobileMenuOpen(false)}
