@@ -10,6 +10,7 @@
     "deploy": "npm run build && npx firebase deploy --only hosting"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "lottie-react": "^2.4.0",
     "lucide-react": "^0.562.0",
     "react": "^19.2.3",
