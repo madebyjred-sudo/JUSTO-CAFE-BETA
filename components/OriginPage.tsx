@@ -26,11 +26,23 @@ export const OriginPage: React.FC<OriginPageProps> = ({ onAddToCart, onQuickView
                         loop
                         muted
                         playsInline
+                        preload="auto"
+                        poster="/images/origin-poster.jpg"
                         className="w-full h-full object-cover scale-105"
+                        onError={(e) => {
+                            const video = e.currentTarget;
+                            video.style.display = 'none';
+                            const fallback = video.nextElementSibling as HTMLElement;
+                            if (fallback) fallback.style.display = 'block';
+                        }}
                     >
-                        <source src="/videos/origin-plantation.mov" type="video/quicktime" />
-                        <source src="/videos/origin-plantation.mov" type="video/mp4" />
+                        <source src="/videos/origin-plantation.mp4" type="video/mp4" />
                     </video>
+                    {/* Fallback background image */}
+                    <div 
+                        className="absolute inset-0 bg-cover bg-center hidden"
+                        style={{ backgroundImage: 'url(/images/origin-poster.jpg)' }}
+                    />
                 </div>
 
                 {/* Hero Content */}
@@ -184,24 +196,40 @@ export const OriginPage: React.FC<OriginPageProps> = ({ onAddToCart, onQuickView
                         <div className="w-full md:w-1/2 relative">
                             <RevealOnScroll delay={200}>
                                 <div className="grid grid-cols-2 gap-4">
-                                    <video
-                                        autoPlay
-                                        loop
-                                        muted
-                                        playsInline
-                                        className="w-full h-64 object-cover rounded-golden-lg mt-12 shadow-lg hover:scale-105 transition-transform duration-700"
-                                    >
-                                        <source src="/videos/process.mov" />
-                                    </video>
-                                    <video
-                                        autoPlay
-                                        loop
-                                        muted
-                                        playsInline
-                                        className="w-full h-64 object-cover rounded-golden-lg shadow-lg hover:scale-105 transition-transform duration-700"
-                                    >
-                                        <source src="/videos/hero-roasting.mp4" type="video/mp4" />
-                                    </video>
+                                    <div className="relative mt-12">
+                                        <video
+                                            autoPlay
+                                            loop
+                                            muted
+                                            playsInline
+                                            preload="auto"
+                                            poster="/images/process-poster.jpg"
+                                            className="w-full h-64 object-cover rounded-golden-lg shadow-lg hover:scale-105 transition-transform duration-700"
+                                            onError={(e) => {
+                                                const video = e.currentTarget;
+                                                video.style.display = 'none';
+                                            }}
+                                        >
+                                            <source src="/videos/process.mp4" type="video/mp4" />
+                                        </video>
+                                    </div>
+                                    <div className="relative">
+                                        <video
+                                            autoPlay
+                                            loop
+                                            muted
+                                            playsInline
+                                            preload="auto"
+                                            poster="/images/roasting-poster.jpg"
+                                            className="w-full h-64 object-cover rounded-golden-lg shadow-lg hover:scale-105 transition-transform duration-700"
+                                            onError={(e) => {
+                                                const video = e.currentTarget;
+                                                video.style.display = 'none';
+                                            }}
+                                        >
+                                            <source src="/videos/hero-roasting.mp4" type="video/mp4" />
+                                        </video>
+                                    </div>
                                 </div>
                                 <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-justo-brown/5 rounded-full blur-3xl"></div>
                             </RevealOnScroll>

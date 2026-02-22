@@ -7,8 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "deploy": "npm run build && npx firebase deploy --only hosting"
-  },
+    "deploy": "npm run build && npx firebase deploy --only hosting",
+    "optimize-videos": "echo 'Video optimization requires ffmpeg. Install with: brew install ffmpeg' && echo 'Then run: ffmpeg -i input.mov -vcodec h264 -acodec mp2 output.mp4'"
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
     "lottie-react": "^2.4.0",

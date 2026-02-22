@@ -47,11 +47,25 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
           loop
           muted
           playsInline
+          preload="auto"
+          poster="/images/hero-poster.jpg"
           className="w-full h-full object-cover scale-105"
+          onError={(e) => {
+            // Fallback: hide video and show background image
+            const video = e.currentTarget;
+            video.style.display = 'none';
+            const fallback = video.nextElementSibling as HTMLElement;
+            if (fallback) fallback.style.display = 'block';
+          }}
         >
           <source src="/videos/hero-roasting.mp4" type="video/mp4" />
           Tu navegador no soporta videos HTML5.
         </video>
+        {/* Fallback background image */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center hidden"
+          style={{ backgroundImage: 'url(/images/hero-poster.jpg)' }}
+        />
       </div>
 
       {/* Content Container */}

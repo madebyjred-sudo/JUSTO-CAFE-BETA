@@ -323,10 +323,23 @@ export const MethodsPage: React.FC<MethodsPageProps> = ({ onAddToCart, onQuickVi
                         loop
                         muted
                         playsInline
+                        preload="auto"
+                        poster="/images/methods-poster.jpg"
                         className="w-full h-full object-cover"
+                        onError={(e) => {
+                            const video = e.currentTarget;
+                            video.style.display = 'none';
+                            const fallback = video.nextElementSibling as HTMLElement;
+                            if (fallback) fallback.style.display = 'block';
+                        }}
                     >
                         <source src="/videos/methods-hero.mp4" type="video/mp4" />
                     </video>
+                    {/* Fallback background image */}
+                    <div 
+                        className="absolute inset-0 bg-cover bg-center hidden"
+                        style={{ backgroundImage: 'url(/images/methods-poster.jpg)' }}
+                    />
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-b from-justo-dark/30 via-justo-dark/60 to-[#F5F1E8]"></div>
 

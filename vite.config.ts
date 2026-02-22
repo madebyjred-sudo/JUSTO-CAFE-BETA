@@ -18,6 +18,14 @@ export default defineConfig(({ mode }) => {
         alias: {
           '@': path.resolve(__dirname, '.'),
         }
-      }
+      },
+      build: {
+        // Ensure public assets are copied
+        copyPublicDir: true,
+        // Increase chunk size warning limit for large videos
+        chunkSizeWarningLimit: 1000,
+      },
+      // Configure asset handling
+      assetsInclude: ['**/*.mp4', '**/*.mov'],
     };
 });
