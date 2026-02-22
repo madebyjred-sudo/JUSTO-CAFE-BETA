@@ -33,6 +33,7 @@ export const ProductCardV2: React.FC<{
     const [selectedVariant, setSelectedVariant] = useState<ProductVariant | undefined>(
         product.variants ? product.variants[0] : undefined
     );
+    const [isExpanded, setIsExpanded] = useState(false);
 
     const currentPrice = selectedVariant ? selectedVariant.price : product.price;
     const currentWeight = selectedVariant ? selectedVariant.weight : product.weight;
@@ -66,7 +67,10 @@ export const ProductCardV2: React.FC<{
 
     return (
         <RevealOnScroll>
-            <div className="relative bg-[#F4F4F4] rounded-[2.5rem] p-6 pb-0 overflow-visible shadow-sm transition-all duration-500 group">
+            <div 
+                className={`relative bg-[#F4F4F4] rounded-[2.5rem] p-6 pb-0 overflow-visible shadow-sm transition-all duration-500 ${isExpanded ? '' : 'group'}`}
+                onClick={() => setIsExpanded(!isExpanded)}
+            >
                 
                 {/* Top Section: Features & Image */}
                 <div className="relative h-[320px] w-full">
@@ -114,20 +118,20 @@ export const ProductCardV2: React.FC<{
                                 <img 
                                     src={product.kitImages[0]} 
                                     alt="Kit Bag 1"
-                                    className="absolute left-0 top-1/2 -translate-y-1/2 w-[55%] h-[80%] object-contain drop-shadow-xl -rotate-6 transition-transform group-hover:-rotate-12 duration-500"
+                                    className={`absolute left-0 top-1/2 -translate-y-1/2 w-[55%] h-[80%] object-contain drop-shadow-xl -rotate-6 ${isExpanded ? '' : 'transition-transform duration-500 group-hover:-rotate-12'}`}
                                 />
                                 {/* Right Bag */}
                                 <img 
                                     src={product.kitImages[1]} 
                                     alt="Kit Bag 2"
-                                    className="absolute right-0 top-1/2 -translate-y-1/2 w-[55%] h-[80%] object-contain drop-shadow-xl rotate-6 transition-transform group-hover:rotate-12 duration-500"
+                                    className={`absolute right-0 top-1/2 -translate-y-1/2 w-[55%] h-[80%] object-contain drop-shadow-xl rotate-6 ${isExpanded ? '' : 'transition-transform duration-500 group-hover:rotate-12'}`}
                                 />
                             </div>
                         ) : (
                             <img 
                                 src={product.image} 
                                 alt={product.name}
-                                className="w-[85%] h-[85%] object-contain drop-shadow-2xl transition-transform duration-500 group-hover:scale-105"
+                                className={`w-[85%] h-[85%] object-contain drop-shadow-2xl ${isExpanded ? '' : 'transition-transform duration-500 group-hover:scale-105'}`}
                             />
                         )}
                     </div>

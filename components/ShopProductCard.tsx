@@ -45,11 +45,11 @@ export const ShopProductCard: React.FC<{
 
     return (
         <RevealOnScroll>
-            <div className="w-full bg-[#F5F1E8] rounded-[1.5rem] overflow-hidden flex flex-col lg:flex-row shadow-sm transition-all duration-500 hover:shadow-2xl hover:-translate-y-1 group">
+            <div className="w-full bg-[#F5F1E8] rounded-[1.5rem] overflow-hidden flex flex-col lg:flex-row shadow-sm transition-all duration-500 hover:shadow-2xl hover:-translate-y-1">
 
                 {/* 1. PRODUCT PHOTO */}
                 <div 
-                    className="w-full lg:w-[40%] bg-[#F5F1E8] relative h-64 lg:h-auto min-h-[300px] flex items-center justify-center cursor-pointer group/image"
+                    className="w-full lg:w-[40%] bg-[#F5F1E8] relative h-64 lg:h-auto min-h-[300px] flex items-center justify-center cursor-pointer"
                     onClick={() => onQuickView(product)}
                 >
                     {/* Score Badge */}
@@ -73,16 +73,8 @@ export const ShopProductCard: React.FC<{
                         </div>
                     )}
 
-                    {/* Hover Overlay with Eye Icon - Desktop */}
-                    <div className="hidden md:flex absolute inset-0 bg-black/5 opacity-0 group-hover/image:opacity-100 transition-opacity duration-300 items-center justify-center z-20">
-                         <div className="bg-white/90 text-justo-dark px-4 py-2 rounded-full shadow-lg flex items-center gap-2 transform translate-y-4 group-hover/image:translate-y-0 transition-transform duration-300">
-                            <Eye size={20} />
-                            <span className="font-body font-bold text-sm uppercase tracking-wider">Ver Detalles</span>
-                         </div>
-                    </div>
-
-                    {/* Mobile Quick View Indicator */}
-                    <div className="md:hidden absolute bottom-3 left-3 z-20">
+                    {/* Quick View Indicator - All devices */}
+                    <div className="absolute bottom-3 left-3 z-20">
                          <div className="bg-white/90 text-justo-dark p-2 rounded-full shadow-md backdrop-blur-sm">
                             <Eye size={16} />
                          </div>

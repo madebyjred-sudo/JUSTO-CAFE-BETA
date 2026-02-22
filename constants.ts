@@ -1,8 +1,50 @@
 
 import { Product, Slide } from './types';
 
-// Placeholder prices
+// Currency Configuration
 export const CURRENCY = 'COP';
+
+// Shopify Store Configuration
+// Replace with your actual Shopify store domain
+export const SHOPIFY_DOMAIN = 'justo-cafe.myshopify.com';
+export const SHOPIFY_STOREFRONT_ACCESS_TOKEN = 'your-storefront-access-token-here';
+
+// ============================================
+// PRODUCTS WITH SHOPIFY INTEGRATION
+// ============================================
+// 
+// SHOPIFY SETUP GUIDE:
+// ====================
+//
+// 1. CREATE PRODUCTS IN SHOPIFY ADMIN:
+//    - Go to Shopify Admin > Products > Add product
+//    - Create each product with the same name as below
+//    - Add variants for different weights (250g, 350g, 500g)
+//    - Set prices matching the ones below
+//
+// 2. GET PRODUCT VARIANT IDs:
+//    - In Shopify Admin, go to each product
+//    - Click "Edit" on each variant
+//    - The URL will show the variant ID (e.g., /variants/43343308062926)
+//    - OR use Shopify GraphQL API to query products and get GIDs
+//
+// 3. UPDATE THE shopifyId FIELDS BELOW:
+//    - Format: 'gid://shopify/ProductVariant/[VARIANT_ID]'
+//    - Example: 'gid://shopify/ProductVariant/43343308062926'
+//
+// 4. ENABLE STOREFRONT API:
+//    - Shopify Admin > Settings > Apps and sales channels
+//    - Develop apps > Create an app
+//    - Configure Storefront API access scopes:
+//      - unauthenticated_read_product_listings
+//      - unauthenticated_read_product_inventory
+//      - unauthenticated_read_checkout
+//      - unauthenticated_write_checkouts
+//    - Install app and get Storefront Access Token
+//
+// 5. UPDATE SHOPIFY_DOMAIN AND TOKEN ABOVE
+//
+// ============================================
 
 export const PRODUCTS: Product[] = [
   {
@@ -20,6 +62,17 @@ export const PRODUCTS: Product[] = [
       { icon: 'package', text: '2 Variedades' },
       { icon: 'gift', text: 'Regalo Perfecto' },
       { icon: 'star', text: 'Edición Limitada' }
+    ],
+    // Shopify Integration: Create as a product with no variants (fixed size)
+    // Or create with variants if you offer different kit sizes
+    stripePriceId: 'gid://shopify/ProductVariant/[KIT_VARIANT_ID]',
+    variants: [
+      {
+        id: 'kit-experiencia-2x250g',
+        weight: '2 x 250g',
+        price: 85000,
+        shopifyId: 'gid://shopify/ProductVariant/[KIT_VARIANT_ID]'
+      }
     ]
   },
   {
@@ -51,28 +104,28 @@ export const PRODUCTS: Product[] = [
       { icon: 'bean', text: 'Notas Dulces' }
     ],
 
-    // Configuración de Variantes
+    // Shopify Variants Configuration
     variants: [
       {
         id: 'castillo-250',
         weight: '250g',
         price: 38000,
-        shopifyId: 'gid://shopify/ProductVariant/43343308062926'
+        shopifyId: 'gid://shopify/ProductVariant/43343308062926' // REPLACE WITH REAL ID
       },
       {
         id: 'castillo-350',
         weight: '350g',
         price: 48000,
-        shopifyId: 'gid://shopify/ProductVariant/43343308095694'
+        shopifyId: 'gid://shopify/ProductVariant/43343308095694' // REPLACE WITH REAL ID
       },
       {
         id: 'castillo-500',
         weight: '500g',
         price: 68000,
-        shopifyId: 'gid://shopify/ProductVariant/43343308128462'
+        shopifyId: 'gid://shopify/ProductVariant/43343308128462' // REPLACE WITH REAL ID
       }
     ],
-    // Fallback ID (usualmente el de 250g)
+    // Fallback ID (usually the smallest variant)
     stripePriceId: 'gid://shopify/ProductVariant/43343308062926'
   },
   {
@@ -106,9 +159,20 @@ export const PRODUCTS: Product[] = [
     },
 
     variants: [
-      { id: 'tabi-250', weight: '250g', price: 42000 },
-      { id: 'tabi-500', weight: '500g', price: 75000 }
-    ]
+      { 
+        id: 'tabi-250', 
+        weight: '250g', 
+        price: 42000,
+        shopifyId: 'gid://shopify/ProductVariant/[TABI_250_VARIANT_ID]' // REPLACE WITH REAL ID
+      },
+      { 
+        id: 'tabi-500', 
+        weight: '500g', 
+        price: 75000,
+        shopifyId: 'gid://shopify/ProductVariant/[TABI_500_VARIANT_ID]' // REPLACE WITH REAL ID
+      }
+    ],
+    stripePriceId: 'gid://shopify/ProductVariant/[TABI_250_VARIANT_ID]'
   },
   {
     id: 'bourbon-rosa',
@@ -141,12 +205,24 @@ export const PRODUCTS: Product[] = [
     },
 
     variants: [
-      { id: 'bourbon-250', weight: '250g', price: 55000 },
-      { id: 'bourbon-500', weight: '500g', price: 98000 }
-    ]
+      { 
+        id: 'bourbon-250', 
+        weight: '250g', 
+        price: 55000,
+        shopifyId: 'gid://shopify/ProductVariant/[BOURBON_250_VARIANT_ID]' // REPLACE WITH REAL ID
+      },
+      { 
+        id: 'bourbon-500', 
+        weight: '500g', 
+        price: 98000,
+        shopifyId: 'gid://shopify/ProductVariant/[BOURBON_500_VARIANT_ID]' // REPLACE WITH REAL ID
+      }
+    ],
+    stripePriceId: 'gid://shopify/ProductVariant/[BOURBON_250_VARIANT_ID]'
   },
 ];
 
+// Hero Slides Configuration
 export const HERO_SLIDES: Slide[] = [
   {
     id: 1,
@@ -170,3 +246,43 @@ export const HERO_SLIDES: Slide[] = [
     image: 'https://images.pexels.com/photos/894695/pexels-photo-894695.jpeg?auto=compress&cs=tinysrgb&w=1920',
   }
 ];
+
+// ============================================
+// SHOPIFY INTEGRATION UTILITIES
+// ============================================
+
+/**
+ * Get Shopify Product Handle from product name
+ * This creates a URL-friendly handle for Shopify
+ */
+export const getShopifyHandle = (name: string): string => {
+  return name
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '') // Remove accents
+    .replace(/[^a-z0-9]+/g, '-')     // Replace non-alphanumeric with hyphens
+    .replace(/^-+|-+$/g, '');        // Trim hyphens
+};
+
+/**
+ * Product URL Generator for Shopify
+ * Use this to generate direct links to Shopify product pages
+ */
+export const getShopifyProductUrl = (handle: string): string => {
+  return `https://${SHOPIFY_DOMAIN}/products/${handle}`;
+};
+
+/**
+ * Shopify Cart URL Generator
+ * Creates a direct cart URL with pre-selected variants
+ */
+export const getShopifyCartUrl = (items: { variantId: string; quantity: number }[]): string => {
+  const baseUrl = `https://${SHOPIFY_DOMAIN}/cart`;
+  if (items.length === 0) return baseUrl;
+  
+  const params = items.map((item, index) => 
+    `${index === 0 ? '?' : '&'}${item.variantId.split('/').pop()}:${item.quantity}`
+  ).join('');
+  
+  return `${baseUrl}${params}`;
+};

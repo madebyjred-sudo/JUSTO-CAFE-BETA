@@ -100,7 +100,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onC
         </button>
 
         {/* Left: Image */}
-        <div className="w-full md:w-1/2 h-64 md:h-auto md:min-h-[500px] bg-[#EBE5D9] relative overflow-hidden group flex items-center justify-center">
+        <div className="w-full md:w-1/2 h-64 md:h-auto md:min-h-[500px] bg-[#EBE5D9] relative overflow-hidden flex items-center justify-center">
           {product.isKit && product.kitImages ? (
             <div className="w-full h-full flex items-center justify-center gap-4 px-8">
               <img
@@ -115,30 +115,11 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, isOpen, onC
               />
             </div>
           ) : (
-            <>
-              <img
-                src={product.image}
-                alt={`Foto de ${product.name}`}
-                className="absolute inset-0 w-full h-full object-contain drop-shadow-[6px_4px_20px_rgba(44,36,32,0.25)]"
-              />
-
-              {/* Hover Image (Bag Effect) */}
-              {product.hoverImage && (
-                <>
-                  {/* Glassmorphism Layer */}
-                  <div className="absolute inset-0 bg-black/40 backdrop-blur-[3px] opacity-0 group-hover:opacity-100 transition-all duration-500 z-10" />
-
-                  {/* Bag Image with Glow */}
-                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-500 z-20">
-                    <img
-                      src={product.hoverImage}
-                      alt={`${product.name} Bag`}
-                      className="w-[70%] h-[70%] object-contain drop-shadow-[6px_4px_20px_rgba(44,36,32,0.25),0_0_25px_rgba(255,255,255,0.3)] scale-100 group-hover:scale-105 transition-transform duration-700"
-                    />
-                  </div>
-                </>
-              )}
-            </>
+            <img
+              src={product.image}
+              alt={`Foto de ${product.name}`}
+              className="absolute inset-0 w-full h-full object-contain drop-shadow-[6px_4px_20px_rgba(44,36,32,0.25)]"
+            />
           )}
           {/* Badge Overlay */}
           <div className="absolute top-6 left-6 flex flex-col gap-2 z-30" aria-hidden="true">

@@ -33,7 +33,7 @@ const RECIPES: Recipe[] = [
         difficulty: 'Medio',
         totalTime: '4 min',
         yield: '1 Taza (300ml)',
-        image: '/images/v60.png',
+        image: '/images/receta-especial.png',
         description: 'Un método icónico que resalta la acidez y las notas florales de nuestros cafés lavados. La claridad en taza es inigualable.',
         ingredients: ['20g de Café Justo (Molienda Media)', '320ml de Agua a 93°C', 'Filtro de papel V60'],
         steps: [
