@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Clock, Users, ChefHat, X, CheckCircle, ArrowRight, Share2, Heart, ShoppingBag, Droplet } from 'lucide-react';
+import { Clock, Users, ChefHat, X, CheckCircle, ArrowRight, Share2, Heart, ShoppingBag, Droplet, Sparkles } from 'lucide-react';
 import { Button } from './Button';
 import { RevealOnScroll } from './RevealOnScroll';
 import { Recipe, Product, ProductVariant } from '../types';
 import { PRODUCTS } from '../constants';
+import { RecipeSubmissionForm } from './RecipeSubmissionForm';
 
 // --- MOCK DATA ---
 const RECIPES: Recipe[] = [
@@ -301,6 +302,7 @@ interface MethodsPageProps {
 export const MethodsPage: React.FC<MethodsPageProps> = ({ onAddToCart, onQuickView }) => {
     const [selectedCategory, setSelectedCategory] = useState<string>('Todos');
     const [activeRecipe, setActiveRecipe] = useState<Recipe | null>(null);
+    const [showSubmissionForm, setShowSubmissionForm] = useState(false);
 
     const categories = ['Todos', ...Array.from(new Set(RECIPES.map(r => r.category)))];
 
@@ -442,18 +444,80 @@ export const MethodsPage: React.FC<MethodsPageProps> = ({ onAddToCart, onQuickVi
                     })}
                 </div>
 
-                {/* Community Call to Action */}
+                {/* Community Call to Action - REDESIGNED */}
                 <RevealOnScroll delay={200}>
-                    <div className="mt-24 p-12 bg-justo-dark rounded-golden-xl text-center relative overflow-hidden">
-                        <div className="absolute inset-0 bg-noise opacity-10 pointer-events-none"></div>
-                        <div className="relative z-10">
-                            <h2 className="font-heading text-5xl text-justo-cream mb-4">¿Tienes un ritual único?</h2>
-                            <p className="font-sans text-justo-cream/80 max-w-xl mx-auto mb-8 font-light">
-                                La comunidad Justo crece con cada taza. Comparte tu receta con nosotros y podrías aparecer en este blog.
-                            </p>
-                            <Button variant="cream">
-                                Compartir mi Receta
-                            </Button>
+                    <div className="mt-32 relative">
+                        {/* Decorative background elements */}
+                        <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-px h-20 bg-gradient-to-b from-transparent to-justo-brown/30"></div>
+                        
+                        <div className="bg-[#F5F1E8] border border-justo-dark/10 rounded-[2.5rem] p-8 md:p-16 relative overflow-hidden">
+                            {/* Background pattern */}
+                            <div className="absolute top-0 right-0 w-64 h-64 bg-justo-brown/5 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+                            <div className="absolute bottom-0 left-0 w-48 h-48 bg-justo-beige/30 rounded-full translate-y-1/2 -translate-x-1/2"></div>
+                            
+                            <div className="relative z-10 grid md:grid-cols-2 gap-12 items-center">
+                                {/* Left: Content */}
+                                <div className="text-center md:text-left">
+                                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-justo-brown/10 rounded-full mb-6">
+                                        <Sparkles className="w-4 h-4 text-justo-brown" />
+                                        <span className="text-xs font-body font-bold uppercase tracking-widest text-justo-brown">
+                            Viernes de Recetas
+                                        </span>
+                                    </div>
+                                    
+                                    <h2 className="font-heading text-5xl md:text-6xl text-justo-dark mb-6 leading-tight">
+                                        ¿Tienes un ritual único?
+                                    </h2>
+                                    
+                                    <p className="font-sans text-justo-dark/70 text-lg mb-8 leading-relaxed max-w-md">
+                                        Cada semana seleccionamos las recetas más creativas de nuestra comunidad. 
+                                        Si la tuya es elegida, la publicaremos con tu nombre el próximo viernes.
+                                    </p>
+                                    
+                                    <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                                        <Button 
+                                            variant="primary" 
+                                            size="lg"
+                                            onClick={() => setShowSubmissionForm(true)}
+                                            className="flex items-center justify-center gap-2"
+                                        >
+                                            Compartir mi Receta
+                                            <ArrowRight size={20} />
+                                        </Button>
+                                    </div>
+                                </div>
+                                
+                                {/* Right: How it works */}
+                                <div className="bg-white/50 rounded-2xl p-8">
+                                    <h3 className="font-body font-bold text-sm uppercase tracking-widest text-justo-dark/50 mb-6 text-center">
+                            Así funciona
+                                    </h3>
+                                    
+                                    <div className="space-y-6">
+                                        {[
+                                            { step: '01', title: 'Envía tu receta', desc: 'Cuéntanos tu método y los detalles de preparación' },
+                                            { step: '02', title: 'Nosotros revisamos', desc: 'Nuestro equipo de baristas evalúa cada propuesta' },
+                                            { step: '03', title: 'Publicación semanal', desc: 'Las mejores recetas se publican los viernes' },
+                                        ].map((item, idx) => (
+                                            <div key={idx} className="flex gap-4">
+                                                <span className="w-10 h-10 bg-justo-dark text-white rounded-full flex items-center justify-center font-body font-bold text-sm shrink-0">
+                                {item.step}
+                                                </span>
+                                                <div>
+                                                    <h4 className="font-body font-bold text-justo-dark">{item.title}</h4>
+                                                    <p className="font-sans text-sm text-justo-dark/60">{item.desc}</p>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    
+                                    <div className="mt-8 pt-6 border-t border-justo-dark/10 text-center">
+                                        <p className="text-xs font-sans text-justo-dark/40">
+                            * Solo publicamos recetas originales con permiso del autor
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </RevealOnScroll>
@@ -464,6 +528,12 @@ export const MethodsPage: React.FC<MethodsPageProps> = ({ onAddToCart, onQuickVi
             {activeRecipe && (
                 <RecipeModal recipe={activeRecipe} onClose={() => setActiveRecipe(null)} onAddToCart={handleAddToCart} />
             )}
+
+            {/* RECIPE SUBMISSION FORM */}
+            <RecipeSubmissionForm 
+                isOpen={showSubmissionForm} 
+                onClose={() => setShowSubmissionForm(false)} 
+            />
 
         </div>
     );
